@@ -4,22 +4,13 @@ BareMetal-Mind is a neural network framework built entirely from first principle
 
 ## Roadmap
 
-|----------|-----------------------------------------------------|---------|
 | Version  | Target                                              | Status  |
-|----------|-----------------------------------------------------|---------|
 | v0.1     | Single Perceptron in C++                            | Planned |
-|----------|-----------------------------------------------------|---------|
 | v0.2     | Forward Pass in OpenCL                              | Planned |
-|----------|-----------------------------------------------------|---------|
 | v0.3     | Batch Processing with multiple parallel perceptron  | Planned |
-|----------|-----------------------------------------------------|---------|
 | v0.4     | Full MLP on OpenCL                                  | Planned |
-|----------|-----------------------------------------------------|---------|
 | v0.5     | Shared Memory Optimization                          | Planned |
-|----------|-----------------------------------------------------|---------|
 | v1.0     | DQN on top of MLP                                   | Planned |
-|----------|-----------------------------------------------------|---------|
 | v1.1     | Q-Learning on top of MLP                            | Planned |
-|----------|-----------------------------------------------------|---------|
 
 Each version is in its own dedicated folder. Each version is an evolved copy of the previous one, so every stage of the progression stays frozen, inescapable, and independently buildable.
