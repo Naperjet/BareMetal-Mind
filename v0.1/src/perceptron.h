@@ -32,7 +32,7 @@ namespace pl
     public:
       enum class Activation { Step, Sigmoid };
 
-      Perceptron(std::size_t n_inputs, Activation activation = Activation::sigmoid,
+      Perceptron(std::size_t n_inputs, Activation activation = Activation::Sigmoid,
                   float learning_rate = 0.1f, unsigned seed = std::random_device{}());
 
       float forward(const std::vector<float>& x) const;
