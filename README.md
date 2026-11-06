@@ -6,7 +6,7 @@ BareMetal-Mind is a neural network framework built entirely from first principle
 
 | Version  | Target                                              | Status  |
 |----------|-----------------------------------------------------|---------|
-| v0.1     | Single Perceptron in C++                            | Planned |
+| v0.1     | Single Perceptron in C++                            | Ongoing |
 | v0.2     | Forward Pass in OpenCL                              | Planned |
 | v0.3     | Batch Processing with multiple parallel perceptron  | Planned |
 | v0.4     | Full MLP on OpenCL                                  | Planned |
