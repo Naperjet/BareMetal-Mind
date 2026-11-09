@@ -84,4 +84,52 @@ int main()
     p.set_weights({0.5f, -0.5f}, 0.25f);
     assert(approx(p.forward({1.0f, 2.0f}), 0.4378235f, 1e-4f));
   }
+
+  /*
+  Test 3: Single step-rule update
+  y = 0
+  t = 1
+  error = 1
+  lr = 0.1
+
+  w' = (0.5 + 0.1*1, -0.5 + 0.1*2)
+     = (0.6, -0.3)
+  b' = 0.25 + 0.1
+     = 0.35
+  */
+
+  {
+    Perceptron p(2, Perceptron::Activation::Step, 0.1f, 42u);
+    p.set_weights({0.5f, -0.5f}, 0.25f);
+    Dataset d;
+    d.samples.push_back({{1.0f, 2.0f}, 1.0f});
+    p.train(d, 1);
+    assert(approx(p.weights()[0], 0.6f, 1e-6f));
+    assert(approx(p.weights()[1], -0.3f, 1e-6f));
+    assert(approx(p.bias(), 0.35f, 1e-6f));
+  }
+
+  /*
+  Test 4: Single Sigmoid Gradient Descent Update
+  y = 0.4378235
+  t = 1
+  delta = (1 - y) * y * (1 - y)
+        ~= 0.1383717
+  lr = 0.1
+
+  w' ~= (0.5138372, -0.4723257)
+  b' ~= 0.2638372
+  */
+
+  {
+    Perceptron p(2, Perceptron::Activation::Sigmoid, 0.1f, 42u);
+    p.set_weights({0.5f, -0.5f}, 0.25f};
+    Dataset d;
+    d.samples.push_back({{1.0f, 2.0f}, 1.0f});
+    p.train (d,1);
+    assert(approx(p.weights()[0], 0.5138372f, 1e-4f));
+    assert(approx(p.weights()[1], -0.4723257f, 1e-4f));
+    assert(approx(p.bias(), 0.2638372f, 1e-4f));
+  }
 }
+
