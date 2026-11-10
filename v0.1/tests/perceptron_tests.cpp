@@ -131,5 +131,67 @@ int main()
     assert(approx(p.weights()[1], -0.4723257f, 1e-4f));
     assert(approx(p.bias(), 0.2638372f, 1e-4f));
   }
-}
 
+  /*
+  Test 5: Predict threshold the sigmoid output
+  */
+
+  {
+    Perceptron p(2, Perceptron::Activation::Sigmoid, 0.1f, 42u);
+    p.set_weights({0.5f, -0.5f}, 0.25f);
+    assert(p.predict({1.0f, 2.0f}) == 0.0f);
+  }
+
+  /*
+  Test 6: Convergence test on separate blobs (sigmoid + gradient descent)
+  */
+
+  {
+    Perceptron p(2, Perceptron::Activation::Sigmoid, 0.1f, 7u);
+    Dataset train = p1::make_blobs(160, 0.4f, 123u);
+    p.train(train, 20);
+    assert(p.accuracy(train) > 0.95f);
+  }
+
+  /*
+  Test 7: XOR is not learnable by a single perceptron
+  */
+
+  {
+    Perceptron p(2, Perceptron::Activation::Sigmoid, 0.1f, 9u);
+    Dataset data = p1::make_xor(200,456u);
+    p.train(data, 50);
+    assert(p.accuracy(data) < 0.75f);
+  }
+
+  /*
+  Test 8: Dataset feature count
+  */
+
+  {
+    Dataset d = p1::make_blobs(10, 0.4f, 1u);
+    assert(d.n_features() == 2);
+  }
+
+  /*
+  Test 9: Input Size Mismatch
+  */
+
+  {
+    Perceptron p(2, Perceptron::Activation::Sigmoid, 0.1f, 42u);
+    bool threw = false;
+    try
+      {
+        p.forward({1.0f});
+      }
+    catch (const std::invalid_argument&)
+      {
+        threw = true;
+      }
+
+    assert(threw)
+  }
+
+  std::cout << "All Test Concluded.\n";
+  return 0;
+}
