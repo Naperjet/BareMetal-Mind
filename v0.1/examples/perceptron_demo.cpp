@@ -38,5 +38,25 @@ namespace
 
 int main()
 {
-  
+  std::cout << "v0.1 - Single Perceptron in C++\n\n";
+
+  Dataset train = p1::make_blobs(160, 0.4f, 123u);
+  Dataset test = p1::make_blobs(40, 0.4f, 321u);
+
+  run_blobs(Perceptron::Activation::Sigmoid, "Sigmoid + gradient descent", train, test, 20);
+  run_blobs(Perceptron::Activation::Step, "Step + perceptron rule", train, test, 20);
+
+  std::cout << "===== XOR: the failure case ===== \n";
+  Dataset xor_data = p1::make_xor(200, 456u);
+  Perceptron p(2, Perceptron::Activation::Sigmoid, 0.1f, 9u);
+  for (std::size_t e = 1; e <= 50; ++e)
+  {
+    p.train(xor_data, 1);
+  }
+
+  std::cout << "  accuracy after 50 epochs: " << p.accuracy(xor_data) * 100.0f << "%/n";
+  std::cout << "  XOR is not linearly separable: a single perceptron cannot learn it.\n";
+  std::cout << "  This is the motivating cliff for v0.4 (full MLP with backpropagation).\n";
+
+  return 0;
 }
