@@ -2,7 +2,7 @@
 
 > A single artificial neuron, implemented from first principles in C++17: forward pass, two learning rules (classic perceptron rule and gradient descent), convergence verified against theory, and the XOR limitation demonstrated empirically.
 >
-> This folder is **self-contained and buildable** — stage 1 of 7 of **BareMetalMind**, a neural-network framework built on the bare metal.
+> This folder is **self-contained and buildable** — stage 1 of 7 of **BareMetalMind**, a neural-network framework built on the bare metal (see `../README.md`).
 
 ---
 
@@ -190,5 +190,9 @@ All 9 tests pass, including hand-computed checks of the forward pass (step and s
 - **CPU scalar loop** — the forward pass is a dot product; v0.2 moves it to an OpenCL kernel with a CPU-vs-GPU benchmark harness.
 
 ---
+
+## References
+
+Full bibliography in [EXPLANATION.md](EXPLANATION.md)
 
 Key sources: Rosenblatt (1962); Novikoff (1962); Minsky & Papert (1969); Widrow & Hoff (1960); Robbins & Monro (1951); Haykin (2009).
