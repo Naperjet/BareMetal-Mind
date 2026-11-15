@@ -31,7 +31,7 @@ void print_hardware()
     std::string line;
     while (std::getline(cpuinfo, line))
     {
-      if (line.rfind("model name", 0) == 0
+      if (line.rfind("model name", 0) == 0)
       {
         const std::size_t pos = line.find(':');
         if (pos != std::string::npos)
@@ -123,7 +123,7 @@ int main()
 
   {
     Perceptron p(2, Perceptron::Activation::Sigmoid, 0.1f, 42u);
-    p.set_weights({0.5f, -0.5f}, 0.25f};
+    p.set_weights({0.5f, -0.5f}, 0.25f);
     Dataset d;
     d.samples.push_back({{1.0f, 2.0f}, 1.0f});
     p.train (d,1);
@@ -189,7 +189,7 @@ int main()
         threw = true;
       }
 
-    assert(threw)
+    assert(threw);
   }
 
   std::cout << "All Test Concluded.\n";
