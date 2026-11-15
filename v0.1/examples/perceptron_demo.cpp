@@ -1,4 +1,4 @@
-#include <stddef>
+#include <cstddef>
 #include <iomanip>
 #include <iostream>
 
@@ -21,7 +21,7 @@ namespace
   {
     std::cout << "=====  " << name << " on separable blobs =====\n";
     Perceptron p(2, activation, 0.1f, 42u);
-    for (std::size_t e = 1l e <= epochs; ++e)
+    for (std::size_t e = 1; e <= epochs; ++e)
       {
         p.train(train,1);
         print_epoch(e, p.loss(train), p.accuracy(train));
@@ -54,7 +54,7 @@ int main()
     p.train(xor_data, 1);
   }
 
-  std::cout << "  accuracy after 50 epochs: " << p.accuracy(xor_data) * 100.0f << "%/n";
+  std::cout << "  accuracy after 50 epochs: " << p.accuracy(xor_data) * 100.0f << "%\n";
   std::cout << "  XOR is not linearly separable: a single perceptron cannot learn it.\n";
   std::cout << "  This is the motivating cliff for v0.4 (full MLP with backpropagation).\n";
 
