@@ -12,7 +12,7 @@ namespace pl
   {
     std::uniform_real_distribution<float> dist(-0.5f, 0.5f);
     w_.reserve(n_inputs);
-    for (std::size_t i = 0; i < n_input; ++i)
+    for (std::size_t i = 0; i < n_inputs; ++i)
     {
       w_.push_back(dist(rng_));
     }
