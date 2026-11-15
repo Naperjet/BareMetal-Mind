@@ -4,77 +4,93 @@
 #include <cmath>
 #include <numeric>
 
-namespace pl
-{
+namespace pl {
+
   Perceptron::Perceptron(std::size_t n_inputs, Activation activation, float learning_rate,
-    unsigned seed)
-  : b_(0.0f), activation_(activation), lr_(learning_rate), rng_(seed) 
+                       unsigned seed)
+    : b_(0.0f), activation_(activation), lr_(learning_rate), rng_(seed) 
   {
     std::uniform_real_distribution<float> dist(-0.5f, 0.5f);
     w_.reserve(n_inputs);
-    for (std::size_t i = 0; i < n_inputs; ++i)
+    for (std::size_t i = 0; i < n_inputs; ++i) 
     {
-      w_.push_back(dist(rng_));
+        w_.push_back(dist(rng_));
     }
   }
 
-  float Perceptron::forward(const std::vector<float>& x) const 
-  {
+  float Perceptron::forward(const std::vector<float>& x) const {
     if (x.size() != w_.size()) 
     {
-      throw std::invalid_argument("Perceptron::forward: input size mismatchy");
+        throw std::invalid_argument("Perceptron::forward: input size mismatch");
     }
-
+    
     float z = b_;
     for (std::size_t i = 0; i < w_.size(); ++i) 
     {
-      z += w_[i] * x[i];
+        z += w_[i] * x[i];
     }
-
+    
     if (activation_ == Activation::Step) 
     {
-      return z >= 0.0f ? 1.0f : 0.0f;
+        return z >= 0.0f ? 1.0f : 0.0f;
     }
-
+    
     return 1.0f / (1.0f + std::exp(-z));
   }
 
-  float Perceptron::update(const std::vector<float>& x) const 
+  float Perceptron::predict(const std::vector<float>& x) const 
   {
     if (activation_ == Activation::Step) 
     {
-      return forward(x);
+        return forward(x);
     }
-
     return forward(x) >= 0.5f ? 1.0f : 0.0f;
+  }
+
+  void Perceptron::update(const Sample& s, float y) 
+  {
+    const float error = s.label - y;
+    float delta = error;
+    if (activation_ == Activation::Sigmoid) 
+    {
+        delta = error * y * (1.0f - y);
+    }
+    
+    for (std::size_t i = 0; i < w_.size(); ++i)
+      {
+        w_[i] += lr_ * delta * s.x[i];
+    }
+    b_ += lr_ * delta;
   }
 
   void Perceptron::train(Dataset& data, std::size_t epochs) 
   {
     for (std::size_t e = 0; e < epochs; ++e) 
     {
-      std::shuffle(data.samples.begin(), data.samples.end(), rng_);
+        std::shuffle(data.samples.begin(), data.samples.end(), rng_);
+        
       for (const Sample& s : data.samples) 
       {
-        update(s, forward(s.x));
-      }
+            update(s, forward(s.x));
+        }
     }
   }
 
   float Perceptron::loss(const Dataset& data) const 
   {
-    if (data.samples.empty()) 
+    if (data.samples.empty())
     {
-      return 0.0f;
+        return 0.0f;
     }
-
+    
     float sum = 0.0f;
+    
     for (const Sample& s : data.samples) 
     {
-      const float diff = s.label - forward(s.x);
-      sum += 0.5f * diff * diff;
+        const float diff = s.label - forward(s.x);
+        sum += 0.5f * diff * diff;
     }
-
+    
     return sum / static_cast<float>(data.samples.size());
   }
 
@@ -82,18 +98,18 @@ namespace pl
   {
     if (data.samples.empty()) 
     {
-      return 0.0f;
+        return 0.0f;
     }
-
+    
     std::size_t correct = 0;
     for (const Sample& s : data.samples) 
     {
-      if (predict(s.x) == s.label) 
-      {
-        ++correct;
-      }
+        if (predict(s.x) == s.label) 
+        {
+            ++correct;
+        }
     }
-
+    
     return static_cast<float>(correct) / static_cast<float>(data.samples.size());
   }
 
@@ -101,9 +117,9 @@ namespace pl
   {
     if (w.size() != w_.size()) 
     {
-      throw std::invalid_argument("Perceptron::set_weights: size mismatch");
+        throw std::invalid_argument("Perceptron::set_weights: size mismatch");
     }
-
+    
     w_ = w;
     b_ = b;
   }
@@ -116,15 +132,16 @@ namespace pl
 
     Dataset d;
     d.samples.reserve(2 * n_per_class);
+    
     for (int c = 0; c < 2; ++c) 
     {
-      for (std::size_t i = 0; i < n_per_class; ++i) 
-      {
-        d.samples.push_back({{centers[c][0] + dist(rng), centers[c][1] + dist(rng)}, 
-            static_cast<float>(c)});
-      }
+        for (std::size_t i = 0; i < n_per_class; ++i) 
+        {
+            d.samples.push_back({{centers[c][0] + dist(rng), centers[c][1] + dist(rng)},
+                                 static_cast<float>(c)});
+        }
     }
-
+    
     return d;
   }
 
@@ -135,14 +152,16 @@ namespace pl
 
     Dataset d;
     d.samples.reserve(4 * n_per_class);
+    
     for (std::size_t i = 0; i < 2 * n_per_class; ++i) 
     {
-      const float x1 = dist(rng);
-      const float x2 = dist(rng);
-      const float label = x1 * x2 > 0.0f ? 1.0f : 0.0f;
-      d.samples.push_back({{x1, x2}, label});
+        const float x1 = dist(rng);
+        const float x2 = dist(rng);
+        const float label = x1 * x2 > 0.0f ? 1.0f : 0.0f;
+        d.samples.push_back({{x1, x2}, label});
     }
-
+    
     return d;
   }
+
 }
