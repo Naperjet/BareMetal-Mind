@@ -11,7 +11,7 @@ namespace pl
     const float centers[2][2] = {{-2.0f, -2.0f}, {2.0f,2.0f}};
 
     Dataset d;
-    d.sample.reserve(2 * n_per_class);
+    d.samples.reserve(2 * n_per_class);
     for (int c = 0; c < 2; ++c)
     {
       for (std::size_t i = 0; i < n_per_class; ++i)
@@ -30,7 +30,7 @@ namespace pl
     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
 
     Dataset d;
-    d.sample.reserve(4 * n_per_class);
+    d.samples.reserve(4 * n_per_class);
     for (std::size_t i = 0; i < 2 * n_per_class; ++i) 
     {
       const float x1 = dist(rng);
