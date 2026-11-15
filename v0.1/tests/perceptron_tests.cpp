@@ -148,7 +148,7 @@ int main()
 
   {
     Perceptron p(2, Perceptron::Activation::Sigmoid, 0.1f, 7u);
-    Dataset train = p1::make_blobs(160, 0.4f, 123u);
+    Dataset train = pl::make_blobs(160, 0.4f, 123u);
     p.train(train, 20);
     assert(p.accuracy(train) > 0.95f);
   }
@@ -159,7 +159,7 @@ int main()
 
   {
     Perceptron p(2, Perceptron::Activation::Sigmoid, 0.1f, 9u);
-    Dataset data = p1::make_xor(200,456u);
+    Dataset data = pl::make_xor(200,456u);
     p.train(data, 50);
     assert(p.accuracy(data) < 0.75f);
   }
@@ -169,7 +169,7 @@ int main()
   */
 
   {
-    Dataset d = p1::make_blobs(10, 0.4f, 1u);
+    Dataset d = pl::make_blobs(10, 0.4f, 1u);
     assert(d.n_features() == 2);
   }
 
