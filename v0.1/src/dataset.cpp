@@ -34,7 +34,7 @@ namespace pl
     for (std::size_t i = 0; i < 2 * n_per_class; ++i) 
     {
       const float x1 = dist(rng);
-      const float x2 = dist(rng)
+      const float x2 = dist(rng);
       const float label = x1 * x2 > 0.0f ? 1.0f : 0.0f;
       d.samples.push_back({{x1, x2}, label});
     }
